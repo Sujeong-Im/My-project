@@ -1,0 +1,123 @@
+# My-project
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+public class JCalc extends JFrame {
+	int firstIn;			// 연산자 이전에 입력된 피연산자 저장
+	String operation;		// 연산자 정보 저장
+	JButton[] Button;	
+	JPanel P1, P2, P3;
+	JTextField expression; 
+	public JCalc()
+	{
+		expression = new JTextField(15);	
+		// 패널1 생성(텍스트필드)
+    P1 = new JPanel();
+		P1.add(expression);	
+
+		// 패널2 생성(버튼)
+		P2 = new JPanel();
+		P2.setLayout(new GridLayout(0,4,2,2));
+		Button = new JButton[16];	
+		// 16개의 버튼 정보 배열에 저장
+		String[] ch = {"7","8","9","/","4","5","6","*","1","2","3","-","C","0","=","+"};
+		for(int i = 0; i<ch.length; i++) {
+			Button[i] = new JButton(ch[i]);	
+			Button[i].setBackground(Color.WHITE);
+			P2.add(Button[i]);	
+		}
+		Button[12].setBackground(Color.PINK);
+		Button[14].setBackground(Color.PINK);
+		
+    // 패널3 생성(버튼+텍스트필드)
+		P3 = new JPanel();					
+		P3.setLayout(new BorderLayout());	
+		P3.add(BorderLayout.CENTER, P2);
+		P3.add(BorderLayout.NORTH, P1);	
+		add(P3);	
+    
+		// 이벤트 처리(람다식)
+		Button[0].addActionListener(e->{
+			expression.setText(expression.getText()+"7");	
+		});
+		Button[1].addActionListener(e->{	
+			expression.setText(expression.getText()+"8");	
+		});
+		Button[2].addActionListener(e->{	
+			expression.setText(expression.getText()+"9");	
+		});
+		Button[3].addActionListener(e->{
+			firstIn = Integer.parseInt(expression.getText()); 	// 문자를 정수로 변환하여 저장
+			expression.setText("");		
+			operation = "DIV";
+		});
+		Button[4].addActionListener(e->{
+			expression.setText(expression.getText()+"4");	
+		});
+		Button[5].addActionListener(e->{
+			expression.setText(expression.getText()+"5");
+		});
+		Button[6].addActionListener(e->{
+			expression.setText(expression.getText()+"6");
+		});
+		Button[7].addActionListener(e->{
+			firstIn = Integer.parseInt(expression.getText());
+			expression.setText("");	
+			operation = "MULT";
+		});
+		Button[8].addActionListener(e->{
+			expression.setText(expression.getText()+"1");
+		});
+		Button[9].addActionListener(e->{
+			expression.setText(expression.getText()+"2");
+		});
+		Button[10].addActionListener(e->{
+			expression.setText(expression.getText()+"3");
+		});
+		Button[11].addActionListener(e->{	
+			firstIn = Integer.parseInt(expression.getText());
+			expression.setText("");	
+			operation = "SUB";
+		});
+		Button[12].addActionListener(e->{	
+			expression.setText("");
+		});
+		Button[13].addActionListener(e->{	
+			expression.setText(expression.getText()+"0");
+		});
+		Button[14].addActionListener(e->{
+			switch(operation) {			// 연산자에 대한 switch문
+			case "ADD":	
+				int add = Integer.parseInt(expression.getText());	
+				expression.setText((firstIn+add)+"");
+				break;		
+			case "SUB":	
+				int sub = Integer.parseInt(expression.getText());
+				expression.setText((firstIn-sub)+"");
+				break;	
+			case "MULT":	
+				int mult = Integer.parseInt(expression.getText());
+				expression.setText((firstIn*mult)+"");
+				break;	
+			case "DIV":	
+				int div = Integer.parseInt(expression.getText());
+				expression.setText((firstIn/div)+"");
+				break;
+			}
+		});
+		Button[15].addActionListener(e->{	
+			firstIn = Integer.parseInt(expression.getText());	
+			expression.setText("");
+			operation = "ADD";
+		});
+	}
+	
+	public static void main(String[] args) {
+		JCalc J = new JCalc();	
+		J.setSize(300,200);	
+		J.setTitle("Java Calculator");
+		J.setVisible(true);
+		J.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+	}
+}
